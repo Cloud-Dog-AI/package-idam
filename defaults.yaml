@@ -1,0 +1,86 @@
+# cloud_dog_idam — Default configuration
+# Standard: PS-70 (User Management & IDAM)
+# NO SECRETS — all credentials via Vault or os.environ
+
+auth:
+  mode: "local"                     # local | oidc | api_key | ldap | saml | pam
+  session_timeout: 3600             # seconds
+  api_key_max_age: 90               # days
+
+idp:
+  enabled: false
+  default_provider: ""
+  keycloak:
+    enabled: false
+    base_url: ""
+    realm: ""
+    client_id: ""
+    client_secret: ""
+    redirect_uri: ""
+    scopes: "openid email profile"
+    fetch_preferences: false
+    field_mapping:
+      language: "locale"
+      preferred_channel: "attributes.preferred_channel"
+      content_style: "attributes.content_style"
+    role_mapping:
+      realm: {}
+      client: {}
+    provisioning_mode: "jit"
+    auto_link_by: "email"
+    tls_verify: true
+    timeout_seconds: 10
+  auth0:
+    enabled: false
+    domain: ""
+    custom_domain: ""
+    client_id: ""
+    client_secret: ""
+    audience: ""
+    redirect_uri: ""
+    logout_redirect_uri: ""
+    scopes: "openid email profile offline_access"
+    organisation_id: ""
+    claims_namespace: "https://cloud-dog.net"
+    role_mapping: {}
+    provisioning_mode: "jit"
+    auto_link_by: "email"
+    timeout_seconds: 10
+  google:
+    enabled: false
+    client_id: ""
+    client_secret: ""
+    redirect_uri: ""
+    scopes: "openid email profile"
+    hosted_domain: ""
+    role_mapping:
+      default_role: "viewer"
+      domain_roles: {}
+      admin_emails: []
+    provisioning_mode: "jit"
+    auto_link_by: "email"
+    timeout_seconds: 10
+
+rbac:
+  default_role: "viewer"
+  cache_ttl: 300                    # seconds
+
+tokens:
+  jwt:
+    algorithm: "HS256"
+    access_ttl: 3600                # seconds
+    refresh_ttl: 2592000            # 30 days
+  opaque:
+    ttl: 3600
+
+password_policy:
+  min_length: 12
+  require_uppercase: true
+  require_lowercase: true
+  require_digit: true
+  require_special: true
+  max_failed_attempts: 5
+  lockout_duration: 900             # seconds
+
+database:
+  url: ""                           # From Vault or env
